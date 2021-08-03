@@ -46,7 +46,7 @@ class Stockmarket extends utils.Adapter {
 			const unitUrl = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + stock + "&apikey=" + apikey;
 			this.log.debug("getting stock unit for " + stock + " with URL " + unitUrl); 
 			
-			https.get(url, (resp) => {
+			https.get(unitUrl, (resp) => {
 				const data = [];
 				resp.on("data", d => data.push(d));
 				resp.on("end", () => {
@@ -58,10 +58,15 @@ class Stockmarket extends utils.Adapter {
 						this.terminate("Parsing JSON Error");
 						return;		
 					}
-				this.log.debug(jsonstring);
-				let unit = jsonstring.Currency;	
-				this.log.debug(unit);
-			      });
+					this.log.debug(jsonstring);
+					let unit = jsonstring.Currency;	
+					this.log.debug(unit);
+			      	});
+			}).on("error", (err) => {
+				this.log.error("Error: " + err.message);
+				this.terminate("HTTP Request Error");
+				return;
+			});
 			
 			https.get(url, (resp) => {
 				const data = [];
