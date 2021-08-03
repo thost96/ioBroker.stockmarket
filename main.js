@@ -41,7 +41,7 @@ class Stockmarket extends utils.Adapter {
 		stocks.forEach(stock => {
 			stock = stock.replace(" ", "");
 			const url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + stock + "&interval=5min&apikey=" + apikey;
-			this.log.info("checking stock for: " + stock + " with URL: " + url);
+			this.log.debug("checking stock for: " + stock + " with URL: " + url);
 			
 			const unitUrl = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + stock + "&apikey=" + apikey;
 			this.log.debug("getting stock unit for " + stock + " with URL " + unitUrl); 
@@ -58,9 +58,8 @@ class Stockmarket extends utils.Adapter {
 						this.terminate("Parsing JSON Error");
 						return;		
 					}
-					this.log.debug(jsonstring);
 					let unit = jsonstring.Currency;	
-					this.log.debug(unit);
+					this.log.debug("stock unit for " + stock + unit);
 			      	});
 			}).on("error", (err) => {
 				this.log.error("Error: " + err.message);
