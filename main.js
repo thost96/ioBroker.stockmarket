@@ -61,7 +61,7 @@ class Stockmarket extends utils.Adapter {
 				this.log.debug(jsonstring);
 				let unit = jsonstring.Currency;	
 				this.log.debug(unit);
-			}
+			      });
 			
 			https.get(url, (resp) => {
 				const data = [];
